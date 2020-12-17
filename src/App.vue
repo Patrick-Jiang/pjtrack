@@ -2,12 +2,7 @@
   <div >
 
     <router-view></router-view>
-    <hr>
-    <router-link to="/money">Track</router-link>
-    |
-    <router-link to="/labels">Tags</router-link>
-    |
-    <router-link to="/statistics">Statistics</router-link>
+
   </div>
 </template>
 
