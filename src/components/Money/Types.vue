@@ -13,8 +13,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
-
+// import {Component} from 'vue-property-decorator';
+import Component from 'vue-class-component'
 //this is test for use prop in typescript
 const TypesProps = Vue.extend({
   props: {

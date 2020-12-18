@@ -1,33 +1,66 @@
 <template>
   <div class="numberPad">
-    <div class="output">100</div>
+    <div class="output">{{ output || 0 }}</div>
     <div class="buttons ">
-      <button>1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>Delete</button>
-      <button>4</button>
-      <button>5</button>
-      <button>6</button>
-      <button>Clear</button>
-      <button>7</button>
-      <button>8</button>
-      <button>9</button>
-      <button class="ok">Ok</button>
-      <button class="zero">0</button>
-      <button>.</button>
+      <button @click="inputContent">1</button>
+      <button @click="inputContent">2</button>
+      <button @click="inputContent">3</button>
+      <button @click="remove">Delete</button>
+      <button @click="inputContent">4</button>
+      <button @click="inputContent">5</button>
+      <button @click="inputContent">6</button>
+      <button @click="clear">Clear</button>
+      <button @click="inputContent">7</button>
+      <button @click="inputContent">8</button>
+      <button @click="inputContent">9</button>
+      <button @click="ok" class="ok">Ok</button>
+      <button @click="inputContent" class="zero">0</button>
+      <button @click="inputContent">.</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-export default {
-name: "NumberPad"
+import Vue from 'vue';
+import Component from 'vue-class-component';
+
+@Component
+export default class NumberPad extends Vue {
+  output = '';
+  inputContent(event: MouseEvent) {
+    const button = (event.target as HTMLButtonElement);
+    const input = button.textContent as string;
+    if (this.output.length === 16) {
+      return;
+    }
+    if (this.output === '0') {
+      if ('0123456789'.indexOf(input) >= 0) {
+        this.output = input;
+      } else {
+        this.output += input;
+      }
+      return;
+    }
+    if (this.output.indexOf('.') >= 0 && input === '.') {
+      return;
+    }
+    this.output += input;
+  }
+  remove(){
+    this.output= this.output.slice(0,-1)
+  }
+  clear(){
+   this.output = '0'
+  }
+  ok(){
+    return
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
+
 .numberPad {
   order: 1;
 
@@ -37,6 +70,7 @@ name: "NumberPad"
     padding: 9px 16px;
     text-align: right;
     @extend %innerShadow;
+    min-height: 72px;
   }
 
   .buttons {
