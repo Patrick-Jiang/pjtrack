@@ -22,7 +22,7 @@ export default {
 
 .tags {
   flex-grow: 1;
-  border: 1px solid red;
+  //border: 1px solid red;
   order: 4;
   font-size: 14px;
   padding: 16px;

@@ -1,8 +1,8 @@
 <template>
   <Layout class-prefix="layout">
     <Tags/>
-    <Notes/>
-    <Types/>
+    <Notes />
+    <Types  />
     <NumberPad/>
   </Layout>
 </template>
