@@ -6,7 +6,7 @@
     <Types :value.sync="record.type" />
     <!--    <Types :value="record.type" @update:value="onUpdateType"/> the same as above-->
 
-    <NumberPad @update:value="onUpdateAmount"/>
+    <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
   </Layout>
 </template>
 
@@ -15,7 +15,7 @@ import NumberPad from '@/components/Money/NumberPad.vue';
 import Types from '@/components/Money/Types.vue';
 import Notes from '@/components/Money/Notes.vue';
 import Tags from '@/components/Money/Tags.vue';
-import Component from 'vue-class-component';
+import {Component, Watch} from 'vue-property-decorator';
 import Vue from 'vue';
 
 type Record = {
@@ -30,6 +30,7 @@ type Record = {
 })
 export default class Money extends Vue {
   tags = ['Food', 'Cloth', 'Rent', 'Transportation'];
+  recordList: Record[] =[]
   record: Record = {tags: [], notes: '', type: '-', amount: 0};
 
   onUpdateTags(value: string[]) {
@@ -48,6 +49,17 @@ export default class Money extends Vue {
   onUpdateAmount(value: string) {
     this.record.amount = parseFloat(value);
   }
+
+  saveRecord(){
+    const deepCloneRecord =JSON.parse(JSON.stringify(this.record))
+    this.recordList.push(deepCloneRecord)
+    console.log(this.recordList);
+  }
+  @Watch('recordList')
+  onRecordListChanged(){
+    window.localStorage.setItem('recordList', JSON.stringify(this.recordList))
+  }
+
 }
 </script>
 <style lang="scss">
