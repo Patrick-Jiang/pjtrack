@@ -32,11 +32,11 @@ export default class Tags extends DataSource {
     return this.tags as [];
   }
 
-
   toggle(tag: string){
     if (this.selectedTags.indexOf(tag) >=0 ){
       this.selectedTags.splice(this.selectedTags.indexOf(tag),1)
     }else{this.selectedTags.push(tag)}
+    this.$emit('update:value',this.selectedTags)
   }
   createNewTag(){
     const name = window.prompt('Please enter new tag name')
@@ -46,8 +46,6 @@ export default class Tags extends DataSource {
     }else{
       this.$emit('update:tags',[...this.tags,name])
     }
-
-    console.log(this.dataSource);
   }
 
 }
