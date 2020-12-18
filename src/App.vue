@@ -15,6 +15,7 @@ body{
   line-height: 1.5;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
+  background: #f5f5f5;
 }
 
 </style>
