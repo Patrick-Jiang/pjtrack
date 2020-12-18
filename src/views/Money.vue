@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-    {{record}}
+    {{recordList}}
     <Tags :tags.sync="tags" @update:value="onUpdateTags"/>
     <Notes @update:value="onUpdateNotes"/>
     <Types :value.sync="record.type" />
@@ -23,6 +23,7 @@ type Record = {
   notes: string;
   type: string;
   amount: number;
+  createdAt?: Date;
 
 }
 @Component({
@@ -30,7 +31,7 @@ type Record = {
 })
 export default class Money extends Vue {
   tags = ['Food', 'Cloth', 'Rent', 'Transportation'];
-  recordList: Record[] =[]
+  recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]')
   record: Record = {tags: [], notes: '', type: '-', amount: 0};
 
   onUpdateTags(value: string[]) {
@@ -51,7 +52,8 @@ export default class Money extends Vue {
   }
 
   saveRecord(){
-    const deepCloneRecord =JSON.parse(JSON.stringify(this.record))
+    const deepCloneRecord: Record =JSON.parse(JSON.stringify(this.record))
+    deepCloneRecord.createdAt = new Date()
     this.recordList.push(deepCloneRecord)
     console.log(this.recordList);
   }
