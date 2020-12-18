@@ -1,15 +1,31 @@
 <template>
   <div class="type-div">
     <ul class="types">
-      <li class="selected">Expense</li>
-      <li>Earn</li>
+      <li :class="type === '-' && 'selected'"
+      @click="selectedType('-')">Expense</li>
+      <li :class="type === '+' && 'selected'"
+      @click="selectedType('+')">Earn</li>
     </ul>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="js">
 export default {
-  name: 'Types'
+  name: 'Types',
+  data() {
+    return {
+      type: '-' // '-- for expense, '+' for earn
+    };
+  },
+  methods:{
+    selectedType(type) { //'type' can only be '- or +'
+      if (type !== '-' && type !=='+'){
+        throw new Error( ' type is unknown')
+      }
+      this.type = type
+    }
+  }
+
 };
 </script>
 
