@@ -4,18 +4,41 @@
       <button>Add new tag</button>
     </div>
     <ul class="current">
-      <li>Food</li>
-      <li>Cloth</li>
-      <li>Rent</li>
-      <li>Transportation</li>
+      <li v-for="tag in dataSource"
+          :key="tag"
+          :class="selectedTags.indexOf(tag)>=0 && 'selected'"
+          @click="toggle(tag)"
+      > {{ tag }}</li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Tags'
-};
+import Vue from 'vue';
+import Component from 'vue-class-component';
+
+const DataSource = Vue.extend({
+  props: {
+    tags: {
+      type: Array
+    }
+  }
+});
+
+@Component
+export default class Tags extends DataSource {
+  selectedTags: string[] = []
+  get dataSource(): string[] {
+    return this.tags as [];
+  }
+
+  toggle(tag: string){
+    if (this.selectedTags.indexOf(tag) >=0 ){
+      this.selectedTags.splice(this.selectedTags.indexOf(tag),1)
+    }else{this.selectedTags.push(tag)}
+
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -33,6 +56,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     overflow: auto;
+
     > li {
       height: 24px;
       line-height: 24px;
@@ -43,6 +67,10 @@ export default {
       padding: 0 8px;
       margin-right: 12px;
       margin-top: 4px;
+      &.selected {
+        background: darken(#d9d9d9,50%);
+        color: white;
+      }
     }
   }
 
