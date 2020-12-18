@@ -1,11 +1,9 @@
 <template>
   <Layout class-prefix="layout">
-    {{recordList}}
+    {{ recordList }}
     <Tags :tags.sync="tags" @update:value="onUpdateTags"/>
     <Notes @update:value="onUpdateNotes"/>
-    <Types :value.sync="record.type" />
-    <!--    <Types :value="record.type" @update:value="onUpdateType"/> the same as above-->
-
+    <Types :value.sync="record.type"/>
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
   </Layout>
 </template>
@@ -17,22 +15,18 @@ import Notes from '@/components/Money/Notes.vue';
 import Tags from '@/components/Money/Tags.vue';
 import {Component, Watch} from 'vue-property-decorator';
 import Vue from 'vue';
+import {model} from '@/model';
 
-type Record = {
-  tags: string[];
-  notes: string;
-  type: string;
-  amount: number;
-  createdAt?: Date;
+// const model = require('@/model.js').model;
+const recordList = model.fetch();
 
-}
 @Component({
   components: {Tags, Notes, Types, NumberPad},
 })
 export default class Money extends Vue {
   tags = ['Food', 'Cloth', 'Rent', 'Transportation'];
-  recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]')
-  record: Record = {tags: [], notes: '', type: '-', amount: 0};
+  recordList: RecordItem[] = recordList;
+  record: RecordItem = {tags: [], notes: '', type: '-', amount: 0};
 
   onUpdateTags(value: string[]) {
     this.record.tags = value;
@@ -42,24 +36,21 @@ export default class Money extends Vue {
     this.record.notes = value;
   }
 
-  // Use .sync do not need this event to update the value
-  // onUpdateType(value: string) {
-  //   this.record.type = value;
-  // }
 
   onUpdateAmount(value: string) {
     this.record.amount = parseFloat(value);
   }
 
-  saveRecord(){
-    const deepCloneRecord: Record =JSON.parse(JSON.stringify(this.record))
-    deepCloneRecord.createdAt = new Date()
-    this.recordList.push(deepCloneRecord)
-    console.log(this.recordList);
+  saveRecord() {
+    const deepCloneRecord: RecordItem = model.clone(this.record);
+    deepCloneRecord.createdAt = new Date();
+    this.recordList.push(deepCloneRecord);
+
   }
+
   @Watch('recordList')
-  onRecordListChanged(){
-    window.localStorage.setItem('recordList', JSON.stringify(this.recordList))
+  onRecordListChanged() {
+   model.save(this.recordList)
   }
 
 }
