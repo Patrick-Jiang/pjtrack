@@ -1,16 +1,24 @@
 <template>
   <div class="note-div">
+    {{value}}
     <label class="notes">
       <span class="name">Note</span>
-      <input type="text" placeholder="Please enter note here">
+      <input type="text"
+             :value="value"
+             @input="value = $event.target.value"
+             placeholder="Please enter note here">
     </label>
   </div>
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Notes'
-};
+import Vue from 'vue';
+import Component from 'vue-class-component';
+
+@Component
+export default class Notes extends Vue{
+ value =''
+}
 </script>
 
 <style lang="scss" scoped>
