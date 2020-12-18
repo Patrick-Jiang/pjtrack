@@ -4,8 +4,7 @@
     <label class="notes">
       <span class="name">Note</span>
       <input type="text"
-             :value="value"
-             @input="value = $event.target.value"
+             v-model="value"
              placeholder="Please enter note here">
     </label>
   </div>
