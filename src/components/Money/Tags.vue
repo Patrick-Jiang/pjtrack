@@ -1,7 +1,7 @@
 <template>
   <div class="tags">
     <div class="new">
-      <button>Add new tag</button>
+      <button @click="createNewTag">Add new tag</button>
     </div>
     <ul class="current">
       <li v-for="tag in dataSource"
@@ -32,12 +32,24 @@ export default class Tags extends DataSource {
     return this.tags as [];
   }
 
+
   toggle(tag: string){
     if (this.selectedTags.indexOf(tag) >=0 ){
       this.selectedTags.splice(this.selectedTags.indexOf(tag),1)
     }else{this.selectedTags.push(tag)}
-
   }
+  createNewTag(){
+    const name = window.prompt('Please enter new tag name')
+    console.log(name);
+    if (name === ''){
+      window.alert('Tag can not be empty')
+    }else{
+      this.$emit('update:tags',[...this.tags,name])
+    }
+
+    console.log(this.dataSource);
+  }
+
 }
 </script>
 

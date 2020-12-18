@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-    <Tags :tags="tags"/>
+    <Tags :tags.sync="tags"/>
     <Notes/>
     <Types/>
     <NumberPad/>
@@ -19,7 +19,7 @@ export default {
   components: {Tags, Notes, Types, NumberPad},
   data() {
     return {
-      tags: ['Food', 'Cloth', 'Rent', 'Transportation','111']
+      tags: ['Food', 'Cloth', 'Rent', 'Transportation']
     };
   }
 
