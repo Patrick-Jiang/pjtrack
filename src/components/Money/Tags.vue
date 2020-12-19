@@ -8,7 +8,8 @@
           :key="tag.id"
           :class="selectedTags.indexOf(tag)>=0 && 'selected'"
           @click="toggle(tag)"
-      > {{ tag.name }}</li>
+      > {{ tag.name }}
+      </li>
     </ul>
   </div>
 </template>
@@ -16,7 +17,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import {tagListModel} from '@/models/tagListModel';
+
 
 const DataSource = Vue.extend({
   props: {
@@ -28,24 +29,25 @@ const DataSource = Vue.extend({
 
 @Component
 export default class Tags extends DataSource {
-  selectedTags: string[] = []
+  selectedTags: string[] = [];
+
   get dataSource(): string[] {
     return this.tags as [];
   }
 
-  toggle(tag: string){
-    if (this.selectedTags.indexOf(tag) >=0 ){
-      this.selectedTags.splice(this.selectedTags.indexOf(tag),1)
-    }else{this.selectedTags.push(tag)}
-    this.$emit('update:value',this.selectedTags)
+  toggle(tag: string) {
+    if (this.selectedTags.indexOf(tag) >= 0) {
+      this.selectedTags.splice(this.selectedTags.indexOf(tag), 1);
+    } else {
+      this.selectedTags.push(tag);
+    }
+    this.$emit('update:value', this.selectedTags);
   }
-  createNewTag(){
+
+  createNewTag() {
     const name = window.prompt('Please enter new tag name');
     if (name) {
-      const msg = tagListModel.create(name);
-      if (msg === 'duplicated') {
-        window.alert('Can not create duplicated tags');
-      }
+      window.createTag(name);
     }
   }
 }
@@ -78,8 +80,9 @@ export default class Tags extends DataSource {
       padding: 0 8px;
       margin-right: 12px;
       margin-top: 4px;
+
       &.selected {
-        background: darken(#d9d9d9,50%);
+        background: darken(#d9d9d9, 50%);
         color: white;
       }
     }
