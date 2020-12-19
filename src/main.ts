@@ -14,6 +14,12 @@ Vue.component('Nav',Nav)
 Vue.component('Layout',Layout)
 Vue.component('Icon',Icon)
 window.tagList = tagListModel.fetch()
+window.createTag= (name: string) =>{
+  const msg = tagListModel.create(name);
+  if (msg === 'duplicated') {
+    window.alert('Can not create duplicated tags');
+  }
+}
 new Vue({
   router,
   store,

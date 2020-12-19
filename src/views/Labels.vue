@@ -28,14 +28,10 @@ tagListModel.fetch();
 )
 export default class Labels extends Vue {
   tags = window.tagList;
-
   createTag() {
     const name = window.prompt('Please enter new tag name');
     if (name) {
-      const msg = tagListModel.create(name);
-      if (msg === 'duplicated') {
-        window.alert('Can not create duplicated tags');
-      }
+      window.createTag(name)
     }
   }
 }
