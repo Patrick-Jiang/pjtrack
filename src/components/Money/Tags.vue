@@ -54,6 +54,7 @@ export default class Tags extends DataSource {
 <style lang="scss" scoped>
 
 .tags {
+  background: white;
   flex-grow: 1;
   //border: 1px solid red;
   order: 4;
