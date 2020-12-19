@@ -16,6 +16,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import {tagListModel} from '@/models/tagListModel';
 
 const DataSource = Vue.extend({
   props: {
@@ -39,15 +40,14 @@ export default class Tags extends DataSource {
     this.$emit('update:value',this.selectedTags)
   }
   createNewTag(){
-    const name = window.prompt('Please enter new tag name')
-    console.log(name);
-    if (name === ''){
-      window.alert('Tag can not be empty')
-    }else{
-      this.$emit('update:tags',[...this.tags,name])
+    const name = window.prompt('Please enter new tag name');
+    if (name) {
+      const msg = tagListModel.create(name);
+      if (msg === 'duplicated') {
+        window.alert('Can not create duplicated tags');
+      }
     }
   }
-
 }
 </script>
 
