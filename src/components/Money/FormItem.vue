@@ -3,7 +3,8 @@
     <label class="formItem">
       <span class="name">{{ fieldName }}</span>
       <input type="text"
-             v-model="value"
+             :value="value"
+             @input="onValueChanged($event.target.value)"
              :placeholder="this.placeHolder">
     </label>
   </div>
@@ -14,15 +15,17 @@ import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
-export default class FormItem extends Vue{
- value =''
-  @Prop({required:true})
-  fieldName!: string
+export default class FormItem extends Vue {
+  @Prop({default: ''})
+  readonly value!: string;
+  @Prop({required: true})
+  fieldName!: string;
   @Prop()
-  placeHolder?: string
+  placeHolder?: string;
+
   @Watch('value')
   onValueChanged(val: string) {
-   this.$emit('update:value',val)
+    this.$emit('update:value', val);
   }
 }
 </script>
