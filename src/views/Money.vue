@@ -19,7 +19,7 @@ import Tags from '@/components/Money/Tags.vue';
 import {Component, Watch} from 'vue-property-decorator';
 import Vue from 'vue';
 import {recordListModel} from '@/models/recordListModel';
-import {tagListModel} from '@/models/tagListModel';
+
 import FormItem from '@/components/Money/FormItem.vue';
 
 const recordList = recordListModel.fetch();
@@ -30,7 +30,7 @@ const recordList = recordListModel.fetch();
 })
 export default class Money extends Vue {
   r;
-  tags = tagListModel.data;
+  tags = window.tagList;
 
   recordList: RecordItem[] = recordList;
   record: RecordItem = {tags: [], notes: '', type: '-', amount: 0};

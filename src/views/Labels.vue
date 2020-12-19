@@ -27,7 +27,7 @@ tagListModel.fetch();
     }
 )
 export default class Labels extends Vue {
-  tags = tagListModel.data;
+  tags = window.tagList;
 
   createTag() {
     const name = window.prompt('Please enter new tag name');
