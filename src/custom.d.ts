@@ -1,4 +1,4 @@
-declare module "*.svg" {
+declare module '*.svg' {
     const content: any;
     export default content;
 }
@@ -21,12 +21,16 @@ type TagListModel = {
     save: () => void;
     remove: (id: string) => boolean;
 }
+
 interface Window {
-    tagList: Tag[];
-    createTag: (name: string) => void;
-    findTag: (id: string) => Tag | undefined;
-    removeTag: (id: string) => boolean;
-    updateTag: (id: string, name: string) => 'success' | 'not found' | 'duplicated'
-    recordList: RecordItem [];
-    createRecord: (record: RecordItem)=> void
+    store: {
+        tagList: Tag[];
+        createTag: (name: string) => void;
+        findTag: (id: string) => Tag | undefined;
+        removeTag: (id: string) => boolean;
+        updateTag: (id: string, name: string) => 'success' | 'not found' | 'duplicated'
+        recordList: RecordItem [];
+        createRecord: (record: RecordItem) => void
+    }
+
 }

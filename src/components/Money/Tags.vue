@@ -17,6 +17,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import store from '@/store/index2';
 
 
 const DataSource = Vue.extend({
@@ -47,7 +48,7 @@ export default class Tags extends DataSource {
   createNewTag() {
     const name = window.prompt('Please enter new tag name');
     if (name) {
-      window.createTag(name);
+      store.createTag(name);
     }
   }
 }
