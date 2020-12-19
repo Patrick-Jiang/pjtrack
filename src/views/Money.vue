@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-    {{ recordList }}
+
     <Tags :tags.sync="tags" @update:value="onUpdateTags"/>
     <div class="form-wrapper">
       <FormItem field-name="Notes" place-holder="Please enter notes" @update:value="onUpdateNotes"/>
