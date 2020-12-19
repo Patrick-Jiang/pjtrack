@@ -29,7 +29,7 @@ const recordList = recordListModel.fetch();
   components: {Tags, FormItem, Types, NumberPad},
 })
 export default class Money extends Vue {
-
+  r;
   tags = tagListModel.data;
 
   recordList: RecordItem[] = recordList;
@@ -49,15 +49,12 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    const deepCloneRecord: RecordItem = recordListModel.clone(this.record);
-    deepCloneRecord.createdAt = new Date();
-    this.recordList.push(deepCloneRecord);
-
+    recordListModel.create(this.record);
   }
 
   @Watch('recordList')
   onRecordListChanged() {
-    recordListModel.save(this.recordList);
+    recordListModel.save();
   }
 
 }
