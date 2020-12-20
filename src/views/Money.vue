@@ -27,13 +27,11 @@ import FormItem from '@/components/Money/FormItem.vue';
   }
 })
 export default class Money extends Vue {
-  // tags = store.tagList;
-  // TODO
-  // recordList: RecordItem[] = oldStore.recordList;
   record: RecordItem = {tags: [], notes: '', type: '-', amount: 0};
 
   created() {
     this.$store.commit('fetchRecords');
+    this.$store.commit('fetchTags');
   }
 
   onUpdateNotes(value: string) {

@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import TagHelper from '@/mixins/TagHelper'
+import TagHelper from '@/mixins/TagHelper.ts'
 import Component, {mixins} from 'vue-class-component';
 
 @Component({
