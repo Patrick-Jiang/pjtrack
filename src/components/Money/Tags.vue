@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
+import TagHelper from '@/mixins/TagHelper'
+import Component, {mixins} from 'vue-class-component';
 
 @Component({
   computed:{
@@ -25,7 +25,7 @@ import Component from 'vue-class-component';
     }
   }
 })
-export default class Tags extends Vue {
+export default class Tags extends mixins(TagHelper) {
   selectedTags: string[] = [];
   create(){
     this.$store.commit('fetchTags')
@@ -38,14 +38,6 @@ export default class Tags extends Vue {
       this.selectedTags.push(tag);
     }
     this.$emit('update:value', this.selectedTags);
-  }
-
-  createNewTag() {
-    const name = window.prompt('Please enter new tag name');
-    if (name) {
-
-     this.$store.commit('createTag',name)
-    }
   }
 }
 </script>

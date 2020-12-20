@@ -5,10 +5,9 @@
                    :to="`/labels/edit/${tag.id}`"><span>{{ tag.name }}</span>
         <Icon name="right"/>
       </router-link>
-
     </div>
     <div class="createTag-wrapper">
-      <Button @click="createTag">Add new tag</Button>
+      <Button @click="createNewTag">Add new tag</Button>
     </div>
   </Layout>
 </template>
@@ -18,22 +17,30 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import Button from '@/components/Button.vue';
+import {mixins} from 'vue-class-component';
+import TagHelper from '@/mixins/TagHelper'
 
 
 @Component({
       components: {Button},
+      computed: {
+        tags() {
+          return this.$store.state.tagList;
+        }
+      }
     }
 )
-export default class Labels extends Vue {
-  // TODO
-  // tags = oldStore.tagList;
-  createTag() {
-    const name = window.prompt('Please enter new tag name');
-    if (name) {
-    // TODO
-      // oldStore.createTag(name)
-    }
+export default class Labels extends mixins(TagHelper) {
+  beforeCreate() {
+    this.$store.commit('fetchTags');
   }
+
+  // createTag() {
+  //   const name = window.prompt('Please enter new tag name');
+  //   if (name) {
+  //     this.$store.commit('createTag', name);
+  //   }
+  // }
 }
 </script>
 
