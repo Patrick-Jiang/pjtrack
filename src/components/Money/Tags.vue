@@ -4,7 +4,7 @@
       <button @click="createNewTag">Add new tag</button>
     </div>
     <ul class="current">
-      <li v-for="tag in dataSource"
+      <li v-for="tag in tagList"
           :key="tag.id"
           :class="selectedTags.indexOf(tag)>=0 && 'selected'"
           @click="toggle(tag)"
@@ -20,21 +20,21 @@ import Component from 'vue-class-component';
 import store from '@/store/index2';
 
 
-const DataSource = Vue.extend({
-  props: {
-    tags: {
-      type: Array
-    }
-  }
-});
+// const DataSource = Vue.extend({
+//   props: {
+//     tags: {
+//       type: Array
+//     }
+//   }
+// });
 
 @Component
-export default class Tags extends DataSource {
+export default class Tags extends Vue {
   selectedTags: string[] = [];
-
-  get dataSource(): string[] {
-    return this.tags as [];
-  }
+  tagList = store.tagList
+  // get dataSource(): string[] {
+  //   return this.tags as [];
+  // }
 
   toggle(tag: string) {
     if (this.selectedTags.indexOf(tag) >= 0) {

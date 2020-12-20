@@ -1,11 +1,9 @@
 <template>
   <Layout class-prefix="layout">
-
-    <Tags :tags.sync="tags" @update:value="onUpdateTags"/>
+    <Tags/>
     <div class="form-wrapper">
       <FormItem field-name="Notes" place-holder="Please enter notes" @update:value="onUpdateNotes"/>
     </div>
-
     <Types :value.sync="record.type"/>
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
   </Layout>
@@ -20,19 +18,15 @@ import Vue from 'vue';
 import FormItem from '@/components/Money/FormItem.vue';
 import store from '@/store/index2';
 
-
 @Component({
   components: {Tags, FormItem, Types, NumberPad},
 })
 export default class Money extends Vue {
-  tags = store.tagList;
+  // tags = store.tagList;
 
   recordList: RecordItem[] = store.recordList;
   record: RecordItem = {tags: [], notes: '', type: '-', amount: 0};
 
-  onUpdateTags(value: string[]) {
-    this.record.tags = value;
-  }
 
   onUpdateNotes(value: string) {
     this.record.notes = value;

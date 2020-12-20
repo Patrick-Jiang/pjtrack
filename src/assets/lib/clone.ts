@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 function clone(data: any) {
     return JSON.parse(JSON.stringify(data));
 }
