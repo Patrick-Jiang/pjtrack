@@ -21,16 +21,15 @@ import Component from 'vue-class-component';
 @Component({
   computed:{
     tagList(){
-      return []
-      // TODO
-      // return this.$store.tagList
+      return this.$store.state.tagList
     }
   }
 })
 export default class Tags extends Vue {
   selectedTags: string[] = [];
-  // TODO
-  // tagList = oldStore.tagList
+  create(){
+    this.$store.commit('fetchTags')
+  }
 
   toggle(tag: string) {
     if (this.selectedTags.indexOf(tag) >= 0) {
@@ -44,8 +43,8 @@ export default class Tags extends Vue {
   createNewTag() {
     const name = window.prompt('Please enter new tag name');
     if (name) {
-      // TODO
-      // oldStore.createTag(name);
+
+     this.$store.commit('createTag',name)
     }
   }
 }
