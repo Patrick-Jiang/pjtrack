@@ -20,6 +20,7 @@ import Vue from 'vue';
 import FormItem from '@/components/Money/FormItem.vue';
 import store from '@/store/index2';
 
+
 @Component({
   components: {Tags, FormItem, Types, NumberPad},
 })

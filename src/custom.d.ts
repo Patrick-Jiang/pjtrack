@@ -16,7 +16,7 @@ type Tag = {
 type TagListModel = {
     data: Tag[];
     fetch: () => Tag[];
-    create: (name: string) => 'success' | 'duplicated';
+    create: (name: string) => 'success' | 'duplicated' | 'empty';
     update: (id: string, name: string) => 'success' | 'not found' | 'duplicated';
     save: () => void;
     remove: (id: string) => boolean;
