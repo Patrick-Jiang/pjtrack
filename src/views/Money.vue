@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-    <Tags/>
+    <Tags  @update:value="onUpdateTags"/>
     <div class="form-wrapper">
       <FormItem field-name="Notes" place-holder="Please enter notes" @update:value="onUpdateNotes"/>
     </div>
@@ -20,20 +20,23 @@ import FormItem from '@/components/Money/FormItem.vue';
 
 @Component({
   components: {Tags, FormItem, Types, NumberPad},
-  computed: {
-    recordList() {
-      return this.$store.state.recordList;
-    }
-  }
+  // computed: {
+  //   recordList() {
+  //     return this.$store.state.recordList;
+  //   }
+  // }
 })
 export default class Money extends Vue {
-  // tags = store.tagList;
-  // TODO
-  // recordList: RecordItem[] = oldStore.recordList;
   record: RecordItem = {tags: [], notes: '', type: '-', amount: 0};
-
+  get recordList() {
+    return this.$store.state.recordList;
+  }
   created() {
     this.$store.commit('fetchRecords');
+    this.$store.commit('fetchTags');
+  }
+  onUpdateTags(value: string[]) {
+    this.record.tags = value;
   }
 
   onUpdateNotes(value: string) {
