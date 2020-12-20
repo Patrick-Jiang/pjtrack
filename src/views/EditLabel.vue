@@ -21,7 +21,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import FormItem from '@/components/Money/FormItem.vue';
 import Button from '@/components/Button.vue';
-import store from '@/store/index2';
+
 
 @Component({
   components: {Button, FormItem}
@@ -30,20 +30,24 @@ export default class EditLabel extends Vue {
   tag?: Tag = undefined;
 
   created() {
-    this.tag = store.findTag(this.$route.params.id);
+    // TODO
+    // this.tag = oldStore.findTag(this.$route.params.id);
     if (!this.tag) {
       this.$router.replace('/404');
     }
   }
   update(name: string){
     if(this.tag){
-      store.updateTag(this.tag.id,name)
+      // TODO
+      // oldStore.updateTag(this.tag.id,name)
     }
   }
   remove(){
     if (this.tag){
-      store.removeTag(this.tag.id)
-      this.$router.back()
+      return
+      // TODO
+      // oldStore.removeTag(this.tag.id)
+      // this.$router.back()
     }
   }
   goBack(){

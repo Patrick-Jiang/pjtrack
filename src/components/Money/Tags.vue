@@ -17,24 +17,20 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import store from '@/store/index2';
 
-
-// const DataSource = Vue.extend({
-//   props: {
-//     tags: {
-//       type: Array
-//     }
-//   }
-// });
-
-@Component
+@Component({
+  computed:{
+    tagList(){
+      return []
+      // TODO
+      // return this.$store.tagList
+    }
+  }
+})
 export default class Tags extends Vue {
   selectedTags: string[] = [];
-  tagList = store.tagList
-  // get dataSource(): string[] {
-  //   return this.tags as [];
-  // }
+  // TODO
+  // tagList = oldStore.tagList
 
   toggle(tag: string) {
     if (this.selectedTags.indexOf(tag) >= 0) {
@@ -48,7 +44,8 @@ export default class Tags extends Vue {
   createNewTag() {
     const name = window.prompt('Please enter new tag name');
     if (name) {
-      store.createTag(name);
+      // TODO
+      // oldStore.createTag(name);
     }
   }
 }
