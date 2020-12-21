@@ -39,7 +39,7 @@ export default class Labels extends mixins(TagHelper) {
 
 
   // createTag() {
-  //   const name = window.prompt('Please enter new tag name');
+  //   constants name = window.prompt('Please enter new tag name');
   //   if (name) {
   //     this.$store.commit('createTag', name);
   //   }

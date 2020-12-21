@@ -45,11 +45,10 @@ export default class Tabs extends Vue {
 </script>
 
 <style lang="scss" scoped>
-//.type-div {
-//  order: 2;
 
-//>
+
 .tabs {
+  order: 2;
   background: #c4c4c4;
   display: flex;
   text-align: center;
