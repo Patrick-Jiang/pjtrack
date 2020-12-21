@@ -1,10 +1,11 @@
 <template>
   <div class="type-div">
     <ul class="types">
-      <li :class="getType === '-' && 'selected'"
+      <li
+          :class="{[classPrefix+'-item']: classPrefix, selected: value==='-'}"
           @click="selectedType('-')">Expense
       </li>
-      <li :class="getType === '+' && 'selected'"
+      <li :class="{[classPrefix+'-item']: classPrefix, selected: value==='+'}"
           @click="selectedType('+')">Earn
       </li>
     </ul>
@@ -13,30 +14,20 @@
 
 <script lang="ts">
 import Vue from 'vue';
-// import {Component} from 'vue-property-decorator';
-import Component from 'vue-class-component'
+import {Component, Prop} from 'vue-property-decorator';
 
-//this is test for use prop in typescript
-const TypesProps = Vue.extend({
-  props: {
-    value: String
-  }
-});
+
 @Component
-export default class Types extends TypesProps {
+export default class Types extends Vue {
+  @Prop(String) readonly value!: string;
+  @Prop(String) classPrefix?: string;
+
 // '-- for expense, '+' for earn
   selectedType(type: string) { //'type' can only be '- or +'
     if (type !== '-' && type !== '+') {
       throw new Error(' type is unknown');
     }
-    this.$emit('update:value',type)
-  }
-
-  get getType(): string {
-    return this.value;
-  }
-  mounted() {
-    console.log(this.getType);
+    this.$emit('update:value', type);
   }
 }
 
