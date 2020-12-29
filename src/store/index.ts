@@ -4,11 +4,7 @@ import clone from '@/assets/lib/clone';
 import createID from '@/assets/lib/createID';
 
 Vue.use(Vuex)
-type RootState = {
-  recordList: RecordItem[];
-  tagList: Tag[];
-  currentTag?: Tag;
-}
+
 const store = new Vuex.Store({
   state: {
     recordList: [],
@@ -21,7 +17,7 @@ const store = new Vuex.Store({
     },
     createRecord(state,record){
       const deepCloneRecord: RecordItem = clone(record);
-      deepCloneRecord.createdAt = new Date();
+      deepCloneRecord.createdAt = new Date().toISOString();
       state.recordList?.push(deepCloneRecord);
       console.log(state.recordList);
       store.commit('saveRecords')
