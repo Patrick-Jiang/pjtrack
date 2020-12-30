@@ -26,6 +26,7 @@ export default class FormItem extends Vue {
 
   onValueChanged(val: string) {
     this.$emit('update:value', val);
+
   }
 }
 </script>

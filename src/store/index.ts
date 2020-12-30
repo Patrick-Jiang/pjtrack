@@ -28,6 +28,11 @@ const store = new Vuex.Store({
     },
     fetchTags(state){
       state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]')
+      if(!state.tagList || state.tagList.length===0){
+        store.commit('createTag', 'Food')
+        store.commit('createTag', 'Cloth')
+        store.commit('createTag', 'TPT')
+      }
     },
     createTag(state,name: string) {
       const names = state.tagList.map(item => item.name);
@@ -42,7 +47,6 @@ const store = new Vuex.Store({
       const id = createID().toString();
       state.tagList.push({id: id, name: name});
       store.commit('saveTags');
-      // window.alert('Success added tag');
       return 'success';
 
     },
