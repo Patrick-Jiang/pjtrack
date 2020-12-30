@@ -1,6 +1,12 @@
 <template>
   <Layout class-prefix="layout">
     <Tags  @update:value="onUpdateTags"/>
+
+    <div class="form-wrapper">
+      <FormItem
+          type="date"
+          field-name="Date" place-holder="Please enter date" :value.sync="record.createdAt"/>
+    </div>
     <div class="form-wrapper">
       <FormItem field-name="Notes" place-holder="Please enter notes" @update:value="onUpdateNotes"/>
     </div>
@@ -24,7 +30,7 @@ import Tabs from '@/components/Tabs.vue';
   components: {Tabs, Tags, FormItem, NumberPad},
 })
 export default class Money extends Vue {
-  record: RecordItem = {tags: [], notes: '', type: '-', amount: 0};
+  record: RecordItem = {tags: [], notes: '', type: '-', amount: 0, createdAt: new Date().toISOString()}
   get recordList() {
     return this.$store.state.recordList;
   }
