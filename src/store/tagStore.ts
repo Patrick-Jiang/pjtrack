@@ -7,7 +7,7 @@ const tagStore = {
 
     // Tag
     tagList: [] as Tag[],
-    ftechTags(){
+    fetchTags(){
         tagStore.tagList = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]');
         return this.tagList
     },
@@ -66,6 +66,6 @@ const tagStore = {
         window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.tagList));
     }
 };
-tagStore.ftechTags()
+tagStore.fetchTags()
 
 export default tagStore;

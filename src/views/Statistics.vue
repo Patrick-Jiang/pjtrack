@@ -2,16 +2,15 @@
   <Layout>
 
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
 
     <ol>
-      <li v-for="(group,index) in result" :key="index">
-        <h3 class="title">{{ group.title }}</h3>
+      <li v-for="(group,index) in groupList" :key="index">
+        <h3 class="title">{{ formatDate(group.title) }} <span>${{ group.total}}</span></h3>
         <ol>
           <li class="record" v-for="(item) in group.items" :key="item.id">
-            <span>{{tagString(item.tags)}}</span>
-            <span class="notes">{{item.notes}}</span>
-            <span>${{item.amount}}</span>
+            <span>{{ tagString(item.tags) }}</span>
+            <span class="notes">{{ item.notes }}</span>
+            <span>${{ item.amount }}</span>
           </li>
         </ol>
       </li>
@@ -24,10 +23,11 @@
 
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-
 import Tabs from '@/components/Tabs.vue';
 import intervalList from '@/constants/intervalList';
 import recordTypeList from '@/constants/recordTypeList';
+import dayjs from 'dayjs';
+import clone from '@/assets/lib/clone';
 
 @Component({
   components: {Tabs}
@@ -38,21 +38,54 @@ export default class Statistics extends Vue {
     return (this.$store.state as RootState).recordList;
   }
 
-  tagString(tags: Tag[]){
-    return tags.length === 0 ? 'None': tags.join(',')
- }
-  get result() {
-    const {recordList} = this;
-    type HashTableValue = { title: string; items: RecordItem[] }
-    const hashTable: { [key: string]: HashTableValue } = {};
-    for (let i = 0; i < recordList.length; i++) {
-      const [date, time] = recordList[i].createdAt!.split('T');
-
-      hashTable[date] = hashTable[date] || {title: date, items: []};
-      hashTable[date].items.push(recordList[i]);
+  formatDate(string: string) {
+    const now = new Date();
+    if (dayjs(string).isSame(now, 'day')) {
+      return 'Today';
+    } else if (dayjs(string).isSame(now.valueOf() - 86400 * 1000, 'day')) {
+      return 'Yesterday';
+    } else {
+      return dayjs(string).format('YYYY-MM-DD');
     }
-    console.log(hashTable);
-    return hashTable;
+  }
+
+  tagString(tags: Tag[]) {
+    if (tags.length === 0) {
+      return 'None';
+    } else {
+      let result = '';
+      for (let j = tags.length - 1; j >= 0; j--) {
+        if (j !== 0) {
+          result += tags[j].name + ',';
+        } else {
+          result += tags[j].name + '';
+        }
+      }
+      return result;
+    }
+  }
+
+  get groupList() {
+    const {recordList} = this;
+    if (recordList.length === 0) {
+      return [];
+    }
+    type Result = {title: string; total?: number; items: RecordItem[]}[]
+    const newList = clone(recordList).filter(r=>r.type === this.type).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+    const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
+    for (let i = 1; i < newList.length; i++) {
+      const current = newList[i];
+      const last = result[result.length - 1];
+      if (dayjs(last.title).isSame(dayjs(current.createdAt), 'day')) {
+        last.items.push(current);
+      } else {
+        result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]});
+      }
+    }
+    result.forEach(group=>{
+      group.total = group.items.reduce((sum,item)=>sum + item.amount,0)
+    })
+    return result;
   }
 
   beforeCreate() {
@@ -69,10 +102,10 @@ export default class Statistics extends Vue {
 <style lang="scss" scoped>
 ::v-deep {
   .type-tabs-item {
-    background: white;
+    background: #c4c4c4;
 
     &.selected {
-      background: #c4c4c4;
+      background: white;
 
       &::after {
         display: none;
