@@ -3,7 +3,7 @@
 
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
     <div class="chart-wrapper" ref="chartWrapper">
-      <Chart class="chart" :options="x"/>
+      <Chart class="chart" :options="chartOptions"/>
     </div>
     <ol v-if="groupList.length > 0">
       <li v-for="(group,index) in groupList" :key="index">
@@ -89,31 +89,35 @@ export default class Statistics extends Vue {
     });
     return result;
   }
+ get keyValueList(){
+   const today = new Date();
+   const array = [];
+   for (let i = 0; i <= 29; i++) {
+     const date = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD');
+     array.push(
+         {
+           key: date, value: _.find(this.recordList, {
+             createdAt: date
+           })?.amount
+         }
+     );
+   }
+   array.sort((a, b) => {
+     if (a.key > b.key) {
+       return 1;
+     } else if (a.key === b.key) {
+       return 0;
+     } else {
+       return -1;
+     }
+   });
 
-  get x() {
-    const today = new Date();
-    const array = [];
-    for (let i = 0; i <= 29; i++) {
-      const date = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD');
-      array.push(
-          {
-            date: date, value: _.find(this.recordList, {
-              createdAt: date
-            })?.amount
-          }
-      );
-    }
-    array.sort((a, b) => {
-      if (a.date > b.date) {
-        return 1;
-      } else if (a.date === b.date) {
-        return 0;
-      } else {
-        return -1;
-      }
-    });
-    const keys = array.map(item => item.date);
-    const value = array.map(item => item.value);
+   return array
+ }
+  get chartOptions() {
+
+    const keys = this.keyValueList.map(item => item.key);
+    const value = this.keyValueList.map(item => item.value);
     return {
       grid: {
         left: 0,
@@ -123,7 +127,13 @@ export default class Statistics extends Vue {
         type: 'category',
         data: keys,
         axisTick: {alignWithLabel: true},
-        axisLine: {lineStyle: {color: '#666'}}
+        axisLine: {lineStyle: {color: '#666'}},
+        axisLabel: {
+          /* eslint-disable */
+          formatter: function(value: string){
+            return value.substring(5)
+          }
+        }
       },
       yAxis: {
         type: 'value',
