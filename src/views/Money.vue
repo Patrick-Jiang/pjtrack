@@ -17,24 +17,26 @@
 
 <script lang="ts">
 import NumberPad from '@/components/Money/NumberPad.vue';
-
 import Tags from '@/components/Money/Tags.vue';
 import {Component} from 'vue-property-decorator';
 import Vue from 'vue';
 import FormItem from '@/components/Money/FormItem.vue';
 import recordTypeList from '@/constants/recordTypeList';
 import Tabs from '@/components/Tabs.vue';
+import dayjs from 'dayjs';
 
 
 @Component({
   components: {Tabs, Tags, FormItem, NumberPad},
 })
 export default class Money extends Vue {
-  record: RecordItem = {tags: [], notes: '', type: '-', amount: 0, createdAt: new Date().toISOString()}
+  record: RecordItem = {tags: [], notes: '', type: '-', amount: 0, createdAt: this.formatDate(new Date().toISOString())}
   get recordList() {
     return this.$store.state.recordList;
   }
-
+  formatDate(ISOstring: string){
+    return dayjs(ISOstring).format('YYYY-MM-DD');
+  }
   recordTypeList = recordTypeList
   created() {
     this.$store.commit('fetchRecords');
