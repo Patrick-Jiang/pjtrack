@@ -5,18 +5,24 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import {Prop} from 'vue-property-decorator';
+import {Prop, Watch} from 'vue-property-decorator';
 import * as echarts from 'echarts';
+
 
 @Component
 export default class Chart extends Vue {
   /* eslint-disable */
   @Prop() options: any;
-
+  chart?: any
   mounted() {
     // console.log(echarts);
-    const chart = echarts.init(this.$refs.wrapper as HTMLDivElement);
-    chart.setOption(this.options);
+    this.chart = echarts.init(this.$refs.wrapper as HTMLDivElement);
+    this.chart.setOption(this.options);
+  }
+
+  @Watch('options')
+  onOptionsChange(newValue: any){
+    this.chart!.setOption(newValue)
   }
 }
 
