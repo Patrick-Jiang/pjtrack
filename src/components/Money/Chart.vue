@@ -6,10 +6,11 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import {Prop} from 'vue-property-decorator';
-import * as echarts from 'echarts/dist/echarts.js';
+import * as echarts from 'echarts';
 
 @Component
 export default class Chart extends Vue {
+  /* eslint-disable */
   @Prop() options: any;
 
   mounted() {
