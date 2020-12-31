@@ -2,6 +2,9 @@
   <Layout>
 
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
+    <div>
+      <Chart :options="x"/>
+    </div>
 
     <ol v-if="groupList.length > 0">
       <li v-for="(group,index) in groupList" :key="index">
@@ -30,9 +33,12 @@ import intervalList from '@/constants/intervalList';
 import recordTypeList from '@/constants/recordTypeList';
 import dayjs from 'dayjs';
 import clone from '@/assets/lib/clone';
+import Chart from '@/components/Money/Chart.vue';
+
+
 
 @Component({
-  components: {Tabs}
+  components: {Chart, Tabs,}
 })
 
 export default class Statistics extends Vue {
@@ -80,7 +86,33 @@ export default class Statistics extends Vue {
     })
     return result;
   }
+   get x (){
 
+    return {
+      xAxis: {
+        type: 'category',
+        data: [
+            'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+            'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+            'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+            'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'
+        ]
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [{
+        data: [
+            820, 932, 901, 934, 1290, 1330, 1320,
+            820, 932, 901, 934, 1290, 1330, 1320,
+            820, 932, 901, 934, 1290, 1330, 1320,
+            820, 932, 901, 934, 1290, 1330, 1320,
+        ],
+        type: 'line'
+      }],
+      tooltip:{show:true}
+    }
+   }
   beforeCreate() {
     this.$store.commit('fetchRecords');
   }
@@ -93,6 +125,12 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
+.echarts {
+
+  max-width: 100%;
+  min-height: 50vh;
+}
 ::v-deep {
   .type-tabs-item {
     background: #c4c4c4;
